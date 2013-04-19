@@ -1,0 +1,21 @@
+Thoughts
+
+Arcade
+
+-Platformer
+
+-Sidescroller
+
+-Fighting
+
+-Rouge-Like/Dungeon
+	Cyborg (finds body upgrades in dungeon isaac style)
+	FOV 180deg
+
+Examples
+-------------
+Binding of Isaac 	- Variety (Combinations)
+
+
+Upgrade
+
