@@ -49,7 +49,7 @@ function Shotgun:fire(type)
 			self.bullets[#self.bullets+1]  = self:randomProjectile()
 			self.bullets[#self.bullets+1]  = self:randomProjectile()
 			self.bullets[#self.bullets+1]  = self:randomProjectile()
-			cooldown=1
+			cooldown=.8
 		end
 	end
 end
