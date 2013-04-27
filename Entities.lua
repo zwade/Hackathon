@@ -13,7 +13,10 @@ function Entity:initialize(nx,ny,template)
 	end
 
 	--self:setImage()
+	tmp = self:getCollision()
 
+	self.bottom = tmp[1]
+	self.width = tmp[2]
 	self.horizlimit = 300
 	self.x = nx
 	self.y = ny
@@ -77,6 +80,7 @@ function Entity:set(nx, ny)
 end
 
 function Entity:renderC(dt)
+	
 	sx = 1
 	sy = 1
 	if love.mouse:getX()<self.x then
@@ -97,6 +101,19 @@ function Entity:renderC(dt)
 			self.components[i]:render(sx,sy)
 		end
 	end
+end
+
+function Entity:getCollision()
+	cx = 0
+	bw = 0
+	for i in pairs(self.components) do
+		en = self.components[i]
+		if en.y+en.h>cx then
+			cx = en.y+en.h
+			bw = en.w
+		end
+	end
+	return {cx,bw}
 end
 function Entity:renderT(mx,my)
 	scalex = 1
@@ -226,11 +243,11 @@ function Entity:moveV(dt,gravity)
 		self.vy = self.vy+dt*Entity.G
 		ny = self.vy*dt
 	end
-	if self.y <= 1024 then
+	if self.y <= (1024-self.bottom) then
 		self:move(0,ny)
 	end
-	if self.y > 1024 then
+	if self.y > (1024-self.bottom) then
 		self.vy = 0
-		self:set(self.x,1024)
+		self:set(self.x,(1024-self.bottom))
 	end
 end

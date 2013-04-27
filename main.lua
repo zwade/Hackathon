@@ -14,14 +14,14 @@ exampleT = {imageList={
 	}
 } 
 
-temp = { c1 = Component(love.graphics.newImage("torso.png"),0,0),
-	 c2 = Component(love.graphics.newImage("head.png"),0,-38),
-	 c3 = Component(love.graphics.newImage("base.png"),0,50),
-	 a1 = Arm(love.graphics.newImage("left.png"),-24,-12),
-	 a2 = Arm(love.graphics.newImage("right.png"),24,-12)
+temp = { c1 = Component(love.graphics.newImage("Chasis.png"),0,0),
+	 c2 = Component(love.graphics.newImage("Head.png"),0,-(65/2+13)),
+	 c3 = Component(love.graphics.newImage("RocketSkate.png"),0,50),
+	 a1 = Arm(love.graphics.newImage("Minigun.png"),-24,-12),
+	 a2 = Arm(love.graphics.newImage("Minigun.png"),24,-12)
  }
 function love.load()
-	love.graphics.setMode( 1024, 1024, false, true, 0 )
+	love.graphics.setMode( 1536,960, false, true, 0 )
 	love.graphics.setBackgroundColor(0,255,0)
 	prot = Entity:new(0,0,temp)
 end

@@ -7,7 +7,6 @@ function Arm:update(dt)
 	xv = self.x+self.parent.x
 	yv = self.y+self.parent.y
 	
-	print(xv,yv)
 
         self.dir = math.atan((yv-my)/(xv-mx)) + math.pi/2
 
