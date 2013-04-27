@@ -61,6 +61,9 @@ function love.keypressed(key)
 		print(prot.y)
 	end
 end
+function love.mousepressed()
+	prot:fire()
+end
 function love.draw()
 	prot:renderC()
 	zomb:renderC()

@@ -1,4 +1,5 @@
 require("middleclass/middleclass")
+require("Projectile")
 
 Entity = class("Entity")
 
@@ -25,6 +26,7 @@ function Entity:initialize(nx,ny,template,map)
 		self.components[i]:init(self)
 	end
 	
+	bullet = Projectile(0,0,500,500,love.graphics.newImage("walker.png"))
 end
 
 function Entity:move(nx,ny)
@@ -106,6 +108,7 @@ function Entity:renderC(dt)
 			self.components[i]:render(sx,sy)
 		end
 	end
+	bullet:render()
 end
 
 function Entity:getCollision()
@@ -125,7 +128,17 @@ function Entity:minmaxXY()
 		en = self.components[i]
 		if en.torso then
 			ret = {}
-			
+			ret[1] = self.x-en.x
+			ret[2] = self.x+en.x
+			ret[3] = self.y-en.y
+			ret[4] = self.y+en.y
+			return ret
+		end
+	end
+end		
+function Entity:fire()
+	print("fire")
+end
 function Entity:render()										
 
 	scalex = 1
@@ -176,6 +189,7 @@ end
 function Entity:behave(keys,dt)
 	nx = 0
 	ny = 0
+	bullet:update({},dt)	
 	if keys["left"] then
 		self.vx=self.vx-25
 	end
