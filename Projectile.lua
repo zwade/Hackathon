@@ -37,6 +37,7 @@ function Projectile:getAge()
 end
 
 function Projectile:checkHits(listOfThingsToHit)
+	print(listOfThingsToHit[0])
 	if not(self.exists) then
 		return
 	end
@@ -51,6 +52,7 @@ end
 function Projectile:checkHit(thingHit)
 	if self:hasHit(thingHit)
 		then
+			print(listOfThingsToHit[0])
 			return self:hitAction(thingHit)
 		end
 	return false
