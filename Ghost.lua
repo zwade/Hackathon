@@ -2,6 +2,7 @@ Ghost = Entity:subclass("Ghost")
 function Ghost:initialize(nx,ny,template,map,prot)
 	Entity.initialize(self,nx,ny,template,map)
 	self.protagonist = prot
+	self.noGrav = true
 end
 
 function Ghost:behave(keys,dt)

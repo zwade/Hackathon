@@ -11,14 +11,14 @@ function Grid:initialize(width, height, elements)
 	if elements then
 		self.map = elements
 	else 
-		for i = 0, width do 
+		for i = 0, (width-1) do 
 			self.map[i] = {}
-			for a = 0, height do
+			for a = 0, (height-1) do
 				self.map[i][a] = false
 			end
 		end
 	end
-	print(self.map[0],self.map[32])
+	print(#self.map[0],#self.map)
 
 end
 

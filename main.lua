@@ -48,6 +48,8 @@ key_factory["6"]=love.graphics.newImage("machinery1.png")
 key_factory["7"]=love.graphics.newImage("machinery1.png")
 key_factory["8"]=love.graphics.newImage("machinery1.png")
 function parseMap(filename)
+	mp = Grid(32,24)
+	enties = {}
 	file = love.filesystem.read(filename)
 	file = file:gsub("\n","")
 	file = file:gsub("\r","")
@@ -57,52 +59,70 @@ function parseMap(filename)
 	ret = {}
 	--print(file)
 	--print("--------")
-	for i=0, 32 do
-		ret[i+1] = {}
-		for a=0, 24 do
-			char = file:sub(i*24+a,i*24+a)
-			print(char)
+	for i=0, 31 do
+		ret[i] = {}
+		for a=0, 23 do
+			char = file:sub(a*32+i,a*32+i)
+			--print(char)
 			if char == "0" then
 				ret[i][a] = false
-			else 
-				ret[i][a] = key_factory[char]
+			elseif char=="6" or char=="7" or char=="8" then
+				enties[#enties+1] = Zombie:new(i*32,a*32,{Walker(),},mp,prot)
+				enties[#enties].is=a*32+i
+			else
+				mp:set(i,a, key_factory[char])
 			end
 		end
 	end
-	return ret
+	return mp,enties
 end
 function love.load()
-	test,size = love.filesystem.read("FactoryD1.txt")
-	--gr = parseMap("FactoryD1.txt")
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	love.graphics.setBackgroundColor(0,0,0)
-	map = Grid(32,24)
-	map:set(1,1,love.graphics.newImage("dirt.png"))
-	map:set(2,22,love.graphics.newImage("dirt.png"))
-	map:set(31,23,love.graphics.newImage("dirt.png"))
-	prot = Entity:new(0,0,temp,map)
-	zomb = Zombie:new(100,100,temp1,map,prot)
-	ghost = Ghost:new(100,200,temp2,map,prot)
-	prot.id = 1
-	zomb.id = 2
-	ghost.id = 3
-	entities = {prot,zomb,ghost}
-	prot:passEntityList(entities)
-	zomb:passEntityList(entities)
-	ghost:passEntityList(entities)
+	test,size = love.filesystem.read("FactoryD1.txt")
+	prot = Entity:new(0,0,temp)
+	prot.id=0
+	map,entities = parseMap("FactoryD1.txt")
+	prot.grid = map
+	--map = Grid(32,24,gr)
+	--map:set(1,1,love.graphics.newImage("dirt.png"))
+	--map:set(2,22,love.graphics.newImage("dirt.png"))
+	--map:set(31,23,love.graphics.newImage("dirt.png"))
+	--zomb = Zombie:new(100,100,temp1,map,prot)
+	--ghost = Ghost:new(100,200,temp2,map,prot)
+	--prot.id = 1
+	--zomb.id = 2
+	--ghost.id = 3
+	--entities = {prot,zomb,ghost}
+	--prot:passEntityList(entities)
+	--zomb:passEntityList(entities)
+	--ghost:passEntityList(entities)
+	entities[#entities+1] = prot
+	for i in pairs(entities) do
+		entities[i]:passEntityList(entities)
+	end
 end
 
 function love.update(dt)
 	keys = getKeys(keyList)
-	prot:behave(keys,dt)
-	prot:moveV(dt,true)
-	prot:moveH(dt)
-	zomb:behave(keys,dt)
-	zomb:moveV(dt,true)
-	zomb:moveH(dt)
-	ghost:behave(keys,dt)
-	ghost:moveV(dt)
-	ghost:moveH(dt)
+	for i in pairs(entities) do
+		en = entities[i]
+		en:behave(keys,dt)
+		if not(en.noGrav) then
+			en.moveV(dt,true)
+		else
+			en.move(dt)
+		en.moveH(dt)
+	end
+	-prot:behave(keys,dt)
+	-prot:moveV(dt,true)
+	-prot:moveH(dt)
+	-zomb:behave(keys,dt)
+	-zomb:moveV(dt,true)
+	-zomb:moveH(dt)
+	-ghost:behave(keys,dt)
+	-ghost:moveV(dt)
+	-ghost:moveH(dt)
 end
 function love.keypressed(key)
 	if key==" " then
@@ -120,9 +140,9 @@ function love.mousepressed(x,y,type)
 	prot:fire(type)
 end
 function love.draw()
-	prot:renderC()
-	zomb:renderC()
-	ghost:renderC()
+	--prot:renderC()
+	--zomb:renderC()
+	--ghost:renderC()
 	map:render()
 end 
 
