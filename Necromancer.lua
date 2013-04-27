@@ -49,12 +49,12 @@ end
 
 function Necromancer:attack()
 	if type==self.weapon then
-		vx = self.protagonist.x - self.x
-		vy = love.mouse:getY() - (self.y+self.parent.y)
+		vx = self.prot.x - self.x
+		vy = self.prot.x - self.y
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*100,vy*100,love.graphics.newImage("RedBullet.png"),self.parent)
+		self.bullets[#self.bullets+1] = Projectile(self.x,self.y,vx*100,vy*100,love.graphics.newImage("RedBullet.png"))
 	end
 end
 
