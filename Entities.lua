@@ -269,6 +269,14 @@ function Entity:moveH(dt, friction)
 	end
 	nx = self.vx*dt
 	self:move(nx,0)
+	if self.x<25 then
+		self.x=25
+		self.vx=0
+	end
+	if self.x>999 then
+		self.x=999
+		self.vx=0
+	end
 		
 end
 function Entity:moveV(dt,gravity)
@@ -282,5 +290,9 @@ function Entity:moveV(dt,gravity)
 	if self.y > (768-self.bottom) then
 		self.vy = 0
 		self:set(self.x,(768-self.bottom))
+	end
+	if (self.y < 0 ) then
+		self.vy = 0
+		self.y = 0
 	end
 end

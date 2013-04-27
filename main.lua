@@ -68,7 +68,6 @@ function parseMap(filename)
 		ret[i] = {}
 		for a=0, 24 do
 			char = file:sub(a*32+i,a*32+i)
-			print(char)
 			if char == "0" then
 				ret[i][a] = false
 			elseif char=="6" or char=="7" or char=="8" then
