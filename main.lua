@@ -77,7 +77,6 @@ function parseMap(filename,key)
 				enties[count] = Zombie(i*32,a*32,tmp,{},prot)
 				enties[count].id = i*24+a
 				count = count+1
-			el
 			else 
 				ret[i][a] = key[char]
 			end
