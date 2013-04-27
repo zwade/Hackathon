@@ -108,21 +108,23 @@ function love.update(dt)
 	for i in pairs(entities) do
 		en = entities[i]
 		en:behave(keys,dt)
+		print(en)
 		if not(en.noGrav) then
-			en.moveV(dt,true)
+			en:moveV(dt,true)
 		else
-			en.move(dt)
-		en.moveH(dt)
+			en:moveV(dt)
+		end
+		en:moveH(dt)
 	end
-	-prot:behave(keys,dt)
-	-prot:moveV(dt,true)
-	-prot:moveH(dt)
-	-zomb:behave(keys,dt)
-	-zomb:moveV(dt,true)
-	-zomb:moveH(dt)
-	-ghost:behave(keys,dt)
-	-ghost:moveV(dt)
-	-ghost:moveH(dt)
+	--prot:behave(keys,dt)
+	--prot:moveV(dt,true)
+	--prot:moveH(dt)
+	--zomb:behave(keys,dt)
+	--zomb:moveV(dt,true)
+	--zomb:moveH(dt)
+	--ghost:behave(keys,dt)
+	--ghost:moveV(dt)
+	--ghost:moveH(dt)
 end
 function love.keypressed(key)
 	if key==" " then
@@ -143,6 +145,9 @@ function love.draw()
 	--prot:renderC()
 	--zomb:renderC()
 	--ghost:renderC()
+	for i in pairs(entities) do 
+		entities[i]:renderC()
+	end
 	map:render()
 end 
 
