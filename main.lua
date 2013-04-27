@@ -109,6 +109,7 @@ end
 
 function love.update(dt)
 	if paused then
+		mainmenu:update(dt)
 		return
 	end
 	keys = getKeys(keyList)
@@ -148,8 +149,10 @@ function love.mousepressed(x,y,type)
 end
 function love.draw()
 	if (paused) then
+		love.graphics.setColor(255, 255, 255, 255)
 		drawOverlay()
 	else
+		love.graphics.setColor(255,255,255,255)
 		for i in pairs(entities) do
 			entities[i]:renderC()
 	
@@ -157,7 +160,6 @@ function love.draw()
 		prot:renderC()
 		map:render()
 	end
-	love.graphics.setColor(255, 255, 0, 255)
 end 
 function drawOverlay()
 	mainmenu:draw()
