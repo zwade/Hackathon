@@ -2,29 +2,28 @@ require("middleclass/middleclass")
 
 Entity = class("Entity")
 
-Entity.static.G = 500
-Entity.static.F = 500
 
 function Entity:initialize(nx,ny,template,map)
 	self.components = template
 	self.grid = map
-	for i in pairs(self.components) do
-		self.components[i].parent = self
-	end
 
 	--self:setImage()
 	tmp = self:getCollision()
-
+	self.G = 500
+	self.F = 500
 	self.bottom = tmp[1]
-	print(self.bottom)
 	self.width = tmp[2]
-	self.horizlimit = 300
+	self.speed = 300
 	self.x = nx
 	self.y = ny
 	self.vx = 0
 	self.ux = 0
 	self.vy = 0
 	self.ux = 0
+	for i in pairs(self.components) do
+		self.components[i].parent = self
+		self.components[i]:init(self)
+	end
 	
 end
 
@@ -45,6 +44,11 @@ function Entity:setImageT()
 
 end
 
+function Entity:takeHit()
+	for i in pairs(self.components) do
+		self.components[i]:takeHit()
+	end
+end
 function Entity:setImage()
 	idb = love.image.newImageData(self.imageList["base"])
 	idt = love.image.newImageData(self.imageList["torso"])
@@ -167,12 +171,21 @@ end
 function Entity:behave(keys,dt)
 	nx = 0
 	ny = 0
-	self.grid:check(self.y+self.bottom,self.x,self.width)
 	if keys["left"] then
 		self.vx=self.vx-25
 	end
 	if keys["right"] then
 		self.vx=self.vx+25
+	end
+	self:coll(dt)
+end
+function Entity:coll(dt)
+	tmp = self.grid:check(self.y+self.bottom,self.x,self.width)
+	if tmp and self.vy>0 then
+		self.y=(tmp-self.bottom)
+		if self.vy>0 then
+			self.vy = 0
+		end
 	end
 	for i in pairs(self.components) do
 		self.components[i]:update(dt)
@@ -185,16 +198,19 @@ end
 function Entity:moveH(dt, friction)
 	friction = friction or true
 	if self.vx > 0 and friction then
-		self.vx = self.vx-dt*Entity.F
+		self.vx = self.vx-dt*self.F
 	end
 	if self.vx < 0 and friction then
-		self.vx = self.vx+dt*Entity.F
+		self.vx = self.vx+dt*self.F
 	end
-	if self.vx > self.horizlimit then
-		self.vx = self.horizlimit
+	if self.vx > self.speed then
+		self.vx = self.speed
 	end
-	if self.vx < -self.horizlimit then
-		self.vx = -self.horizlimit
+	if self.vx < -self.speed then
+		self.vx = -self.speed
+	end
+	if self.vx < 1 and self.vx > -1 then
+		self.vx = 0
 	end
 	nx = self.vx*dt
 	self:move(nx,0)
@@ -203,7 +219,7 @@ end
 function Entity:moveV(dt,gravity)
 	gravity = gravity or true
 	if gravity then
-		self.vy = self.vy+dt*Entity.G
+		self.vy = self.vy+dt*self.G
 		ny = self.vy*dt
 	end
 	if self.y <= (768-self.bottom) then

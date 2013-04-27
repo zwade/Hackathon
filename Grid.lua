@@ -32,8 +32,7 @@ end
 
 function Grid:check(cy,cx,wid)
 	tmpy=math.floor(cy/32)
-	tmpy = tmpy-1
-	if cy%32>8 then
+	if cy%32~=32 and (cy%32>16 or cy%32==0)  then
 		return false
 	end
 	tmpx1 = math.floor((cx-wid/2)/32)
@@ -45,12 +44,10 @@ function Grid:check(cy,cx,wid)
 		tmpx2 = self.w
 	end
 	for i = tmpx1, tmpx2 do
-		print(tmpy,i)
 		if self:get(i,tmpy) then
-			print("YUP")
+			return (tmpy)*32
 		end
 	end
-	print("---")
 end
 
 function Grid:render()

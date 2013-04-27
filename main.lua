@@ -3,6 +3,8 @@ require("component")
 require("Pivot")
 require("Arm")
 require("Grid")
+require("Zombie")
+require("Walker")
 
 local keyList = {"up","down","left","right"," "}
 
@@ -15,11 +17,13 @@ exampleT = {imageList={
 	}
 } 
 
-temp = { c1 = Component(love.graphics.newImage("Chasis.png"),0,0),
-	 c2 = Component(love.graphics.newImage("Head.png"),0,-(65/2+13)),
-	 c3 = Component(love.graphics.newImage("RocketSkate.png"),0,(65/2)+20),
-	 a1 = Arm(love.graphics.newImage("Minigun.png"),-24,-12),
-	 a2 = Arm(love.graphics.newImage("Minigun.png"),24,-12)
+temp1 = { c1 = Walker(),
+ }
+temp = { c1 = Component( "Chasis.png",0,0),
+	 c2 = Component( "Head.png",0,-(65/2+13)),
+	 c3 = Component( "RocketSkate.png",0,(65/2)+20),
+	 a1 = Arm( "Minigun.png",-24,-12),
+	 a2 = Arm( "Minigun.png",24,-12)
  }
 
 function love.conf(t)
@@ -30,9 +34,10 @@ function love.load()
 	love.graphics.setBackgroundColor(0,255,0)
 	map = Grid(32,24)
 	map:set(1,1,love.graphics.newImage("dirt.png"))
-	map:set(0,0,love.graphics.newImage("dirt.png"))
+	map:set(2,22,love.graphics.newImage("dirt.png"))
 	map:set(31,23,love.graphics.newImage("dirt.png"))
 	prot = Entity:new(0,0,temp,map)
+	zomb = Zombie:new(100,100,temp1,map,prot)
 end
 
 function love.update(dt)
@@ -40,6 +45,9 @@ function love.update(dt)
 	prot:behave(keys,dt)
 	prot:moveV(dt)
 	prot:moveH(dt)
+	zomb:behave(keys,dt)
+	zomb:moveV(dt)
+	zomb:moveH(dt)
 end
 function love.keypressed(key)
 	if key==" " then
@@ -49,11 +57,13 @@ function love.keypressed(key)
 		love.event.push("quit")
 	end
 	if key=="q" then
+		prot:takeHit()
 		print(prot.y)
 	end
 end
 function love.draw()
 	prot:renderC()
+	zomb:renderC()
 	map:render()
 end 
 
