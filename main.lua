@@ -1,4 +1,7 @@
 require("Entities")
+require("component")
+require("Pivot")
+require("Arm")
 
 local keyList = {"up","down","left","right"," "}
 
@@ -11,10 +14,16 @@ exampleT = {imageList={
 	}
 } 
 
+temp = { c1 = Component(love.graphics.newImage("torso.png"),0,0),
+	 c2 = Component(love.graphics.newImage("head.png"),0,-38),
+	 c3 = Component(love.graphics.newImage("base.png"),0,50),
+	 a1 = Arm(love.graphics.newImage("left.png"),-24,-12),
+	 a2 = Arm(love.graphics.newImage("right.png"),24,-12)
+ }
 function love.load()
 	love.graphics.setMode( 1024, 1024, false, true, 0 )
 	love.graphics.setBackgroundColor(0,255,0)
-	prot = Entity:new(0,0, {base="base1.png", head="head-generic.png", torso="torso-generic.png", right="right1.png", left="left1.png"})
+	prot = Entity:new(0,0,temp)
 end
 
 function love.update(dt)
@@ -32,7 +41,7 @@ function love.keypressed(key)
 	end
 end
 function love.draw()
-	prot:render()
+	prot:renderC()
 end 
 
 function getKeys(keys)

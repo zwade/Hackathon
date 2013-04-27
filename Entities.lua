@@ -5,16 +5,16 @@ Entity = class("Entity")
 Entity.static.G = 500
 Entity.static.F = 500
 
-function Entity:initialize(nx,ny,sprite,template)
-	--self.components = template
+function Entity:initialize(nx,ny,template)
+	self.components = template
+	
+	for i in pairs(self.components) do
+		self.components[i].parent = self
+	end
 
-	self.imageList = sprite
-
-	self:setImage()
+	--self:setImage()
 
 	self.horizlimit = 300
-	self.width = self.image:getWidth()
-	self.height = self.image:getHeight()
 	self.x = nx
 	self.y = ny
 	self.vx = 0
@@ -60,9 +60,6 @@ function Entity:setImage()
 
 end
 
-function love.draw()
-	love.graphics.draw(image,0,0)
-end
 
 
 function Entity:set(nx, ny)
@@ -79,6 +76,28 @@ function Entity:set(nx, ny)
 	self.y = ny
 end
 
+function Entity:renderC(dt)
+	sx = 1
+	sy = 1
+	if love.mouse:getX()<self.x then
+		sx=sx*-1
+	end
+	for i in pairs(self.components) do
+		if self.components[i].z < 0 then
+			self.components[i]:render(sx,sy)
+		end
+	end
+	for i in pairs(self.components) do
+		if self.components[i].z == 0 then
+			self.components[i]:render(sx,sy)
+		end
+	end
+	for i in pairs(self.components) do
+		if self.components[i].z > 0 then
+			self.components[i]:render(sx,sy)
+		end
+	end
+end
 function Entity:renderT(mx,my)
 	scalex = 1
 	scaley = 1
@@ -174,6 +193,9 @@ function Entity:behave(keys,dt)
 	end
 	if keys["right"] then
 		self.vx=self.vx+25
+	end
+	for i in pairs(self.components) do
+		self.components[i]:update(dt)
 	end
 end
 
