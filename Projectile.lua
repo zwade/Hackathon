@@ -15,6 +15,7 @@ function Projectile:initialize(x, y, vx, vy, image,par)
 	self.vy = vy
 	self.exists = true
 	self.age = 0
+	print(">>>>>>>>>>>>>>>>")
 end
  
 function Projectile:move(nx,ny)
@@ -37,7 +38,12 @@ function Projectile:getAge()
 end
 
 function Projectile:checkHits(listOfThingsToHit)
-	print(listOfThingsToHit[0])
+	for i in pairs(listOfThingsToHit) do
+		for a in pairs(listOfThingsToHit[i]) do
+			print(a,listOfThingsToHit[i][a])
+		end	
+		print(i, listOfThingsToHit)
+	end
 	if not(self.exists) then
 		return
 	end
@@ -52,7 +58,6 @@ end
 function Projectile:checkHit(thingHit)
 	if self:hasHit(thingHit)
 		then
-			print(listOfThingsToHit[0])
 			return self:hitAction(thingHit)
 		end
 	return false
@@ -84,6 +89,7 @@ function Projectile:hasHit(thingWithHitbox)
 		print("YAY")
 		return true	
 	else
+		print("BOO")
 		return false
 	end
 end

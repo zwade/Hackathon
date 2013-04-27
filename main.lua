@@ -67,8 +67,8 @@ function parseMap(filename)
 			if char == "0" then
 				ret[i][a] = false
 			elseif char=="6" or char=="7" or char=="8" then
-				enties[#enties+1] = Zombie:new(i*32,a*32,{Walker(),},mp,prot)
-				enties[#enties].is=a*32+i
+				enties[#enties+1] = Ghost:new(i*32,a*32,{Ghostie(),},mp,prot)
+				enties[#enties].id=a*32+i
 			else
 				mp:set(i,a, key_factory[char])
 			end
@@ -80,7 +80,7 @@ function love.load()
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	love.graphics.setBackgroundColor(0,0,0)
 	test,size = love.filesystem.read("FactoryD1.txt")
-	prot = Entity:new(0,0,temp)
+	prot = Entity:new(0,0,temp,{})
 	prot.id=0
 	map,entities = parseMap("FactoryD1.txt")
 	prot.grid = map
@@ -108,7 +108,6 @@ function love.update(dt)
 	for i in pairs(entities) do
 		en = entities[i]
 		en:behave(keys,dt)
-		print(en)
 		if not(en.noGrav) then
 			en:moveV(dt,true)
 		else

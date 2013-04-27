@@ -41,7 +41,6 @@ Shotgun.static.SPEED_MODIFIER = 2000
 function Shotgun:fire(type)
 	if type==self.weapon then
 		self.bullets[#self.bullets+1]  = self:randomProjectile()
-		print(self.bullets[#self.bullets+Shotgun.NUM_PELLETS])
 	end
 end
  
