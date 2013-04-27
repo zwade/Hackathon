@@ -33,6 +33,8 @@ function Shotgun:update(dt)
 	Arm.update(self,dt)
 	for i in pairs(self.bullets) do
 		self.bullets[i]:update(self.entities,dt)
+	if cooldown>0 then
+		cooldown=cooldown-dt
 	end
 end
  
@@ -48,8 +50,6 @@ function Shotgun:fire(type)
 			self.bullets[#self.bullets+1]  = self:randomProjectile()
 			self.bullets[#self.bullets+1]  = self:randomProjectile()
 			cooldown=.3
-		else
-			cooldown=cooldown-dt
 		end
 	end
 end
