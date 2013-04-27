@@ -258,6 +258,10 @@ function Entity:coll(dt)
 			self.canJump = true
 		end
 	end
+	--tmp2 = self.grid:checkX(self.x,self.y,self.width,self.bottom)
+	--if tmp2 then
+	--	self.x = tmp2-self.width
+	--end
 	for i in pairs(self.components) do
 		self.components[i]:update(dt)
 	end
@@ -303,7 +307,6 @@ end
 function Entity:areDead()
 	for i in pairs(self.entities) do	
 		if self.entities[i].alive then
-			print(self.entities[i])
 			return false
 		end
 	end

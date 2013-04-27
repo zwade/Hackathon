@@ -18,7 +18,6 @@ function Grid:initialize(width, height, elements)
 			end
 		end
 	end
-	print(#self.map[0],#self.map)
 
 end
 
@@ -51,9 +50,30 @@ function Grid:checkY(cy,cx,wid)
 end
 
 function Grid:checkX(cx,cy,wid,hei)
-	l1t = math.floor((cx+wid/2+hei)/32)
-	l1t = math.floor((cx+wid/2-hei)/32)
-	
+	l1 = math.floor((cx+wid/2)/32)
+	l2 = math.floor((cx-wid/2)/32)
+	h1 = math.floor((cy+hei/2)/32)
+	h2 = math.floor((cy-hei/2)/32)
+	if l1>self.w then
+		l1 = self.w
+	end
+	if l1<0 then
+		l1=0
+	end
+	if h1> self.h then
+		h1 = self.h
+	end
+	if h1< 0 then
+		h1 = 0
+	end
+	for i = h2,h1 do
+		print(i)
+		if self:get(l1,i) then
+			print("yeahhhhhhh")
+			return l1*32
+		end
+	end
+end
 function Grid:render()
 	for i in pairs(self.map) do
 		for a in pairs(self.map[i]) do

@@ -28,7 +28,6 @@ end
 function Shotgun:update(dt)
 	while #self.bullets>25 do
 		self.bullets = removeitem(self.bullets,1)
-		print(#self.bullets)
 	end
 	Arm.update(self,dt)
 	for i in pairs(self.bullets) do
