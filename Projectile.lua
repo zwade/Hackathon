@@ -3,7 +3,8 @@ require("middleclass/middleclass")
 Projectile = class("Projectile")
 --Projectile:include(Hitbox) --Hitbox is at bottom of file
  
-function Projectile:initialize(x, y, vx, vy, image,par)
+function Projectile:initialize(x, y, vx, vy, image,par,powr)
+	self.power = powr or 1
   --self.components = template
 	self.image = image
 	self.width = self.image:getWidth()
@@ -15,7 +16,6 @@ function Projectile:initialize(x, y, vx, vy, image,par)
 	self.vy = vy
 	self.exists = true
 	self.age = 0
-	print(">>>>>>>>>>>>>>>>")
 end
  
 function Projectile:move(nx,ny)
@@ -24,7 +24,6 @@ function Projectile:move(nx,ny)
 end
  
 function Projectile:update(loe,dt)
-	print(">>>>>",loe[0])
 	self.age = self.age + 1
 	tmp = self:checkHits(loe)
 	self:move(self.vx*dt, self.vy*dt)
@@ -88,13 +87,12 @@ function Projectile:hasHit(thingWithHitbox)
 		print("YAY")
 		return true	
 	else
-		print("BOO")
 		return false
 	end
 end
  
 function Projectile:hitAction(thingHit)
-	thingHit:takeHit(1)
+	thingHit:takeHit(self.power)
 	return true
 end
 function Projectile:render()

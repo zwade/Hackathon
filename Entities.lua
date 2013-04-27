@@ -37,6 +37,7 @@ function Entity:initialize(nx,ny,template,map)
 	self.ux = 0
 	self.vy = 0
 	self.ux = 0
+	self.entities = {}
 	for i in pairs(self.components) do
 		self.components[i].parent = self
 		self.components[i]:init(self)
@@ -218,6 +219,7 @@ function Entity:alterVelocity(v)
 	self.vy=self.vy+v
 end
 function Entity:passEntityList(ent)
+	self.entities = ent
 	for i in pairs(self.components) do
 		self.components[i]:setEntities(ent)
 	end
@@ -274,10 +276,22 @@ function Entity:moveH(dt, friction)
 		self.vx=0
 	end
 	if self.x>999 then
+		if self:areDead() then
+			print("All Dead!")
+		end
 		self.x=999
 		self.vx=0
 	end
 		
+end
+function Entity:areDead()
+	for i in pairs(self.entities) do	
+		if self.entities[i].alive then
+			print(self.entities[i])
+			return false
+		end
+	end
+	return true
 end
 function Entity:moveV(dt,gravity)
 	if gravity then

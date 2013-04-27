@@ -90,7 +90,8 @@ function love.load()
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24,gr)
-	entities[#entities+1] = prot
+	prot.grid = map
+	prot:passEntityList(entities)
 	for i in pairs(entities) do
 		entities[i].grid = map
 	end
@@ -132,6 +133,7 @@ function love.draw()
 		entities[i]:renderC()
 
 	end
+	prot:renderC()
 	map:render()
 end 
 

@@ -50,7 +50,7 @@ function Shotgun:randomProjectile()
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		return Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*Shotgun.SPEED_MODIFIER + self:randomDeviation(Shotgun.SPREAD_FACTOR),vy*Shotgun.SPEED_MODIFIER + self:randomDeviation(Shotgun.SPREAD_FACTOR),love.graphics.newImage("shot.png"),self.parent)
+		return Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*Shotgun.SPEED_MODIFIER + self:randomDeviation(Shotgun.SPREAD_FACTOR),vy*Shotgun.SPEED_MODIFIER + self:randomDeviation(Shotgun.SPREAD_FACTOR),love.graphics.newImage("shot.png"),self.parent,2)
 end
  
 function Shotgun:randomDeviation(spreadfactor)
