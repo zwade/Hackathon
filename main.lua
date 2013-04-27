@@ -14,11 +14,11 @@ require("Shotgun")
 --require("Fairy")
 --require("PFairy")
 
-
+local paused = false
 local keyList = {"up","down","left","right"," "}
 
 exampleT = {imageList={
-		{image="base1.png",
+  	{image="base1.png",
 		x = -14,
 		y = -64,
 		o1 = 0,
@@ -89,7 +89,6 @@ function love.load()
 	mainmenu = Menu:new(1024/2 - 50, 768/2 - 100)
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	loadlevel("FactoryD2.txt",key_factory)
-	paused = false
 end
 
 function loadlevel(level,key)
@@ -109,11 +108,8 @@ function loadlevel(level,key)
 end
 
 function love.update(dt)
-	if paused then
-		mainmenu:update(dt)
-		return
-	end
 	keys = getKeys(keyList)
+  if not paused then
 	for i in pairs(entities) do
 		en = entities[i]
 		en:behave(keys,dt)
@@ -123,7 +119,9 @@ function love.update(dt)
 	prot:behave(keys,dt)
 	prot:moveV(dt,true)
 	prot:moveH(dt)
-	
+  else
+  mainmenu:update(dt)
+  end
 end
 function love.keypressed(key)
 	if key==" " then
@@ -143,24 +141,20 @@ function love.keypressed(key)
 	end
 end
 function love.mousepressed(x,y,type)
-	if paused then
-		return
+	if not paused then
+  prot:fire(type)
 	end
-	prot:fire(type)
 end
 function love.draw()
-	if (paused) then
-		love.graphics.setColor(255, 255, 255, 255)
-		drawOverlay()
-	else
-		love.graphics.setColor(255,255,255,255)
-		for i in pairs(entities) do
-			entities[i]:renderC()
-	
-		end
-		prot:renderC()
-		map:render()
+
+  for i in pairs(entities) do
+  	entities[i]:renderC()
 	end
+  prot:renderC()
+	map:render()
+	if paused then drawOverlay() end
+	love.graphics.setColor(255, 255, 255, 255)
+
 end 
 function drawOverlay()
 	mainmenu:draw()
