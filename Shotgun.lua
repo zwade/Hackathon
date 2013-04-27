@@ -1,5 +1,7 @@
 Shotgun = Arm:subclass("Shotgun")
  
+local cooldown=0 
+ 
 function removeitem(list, index)
         ret = {}
         for i=1,(index-1) do
@@ -40,10 +42,15 @@ Shotgun.static.SPEED_MODIFIER = 2000
  
 function Shotgun:fire(type)
 	if type==self.weapon then
-		self.bullets[#self.bullets+1]  = self:randomProjectile()
-		self.bullets[#self.bullets+1]  = self:randomProjectile()
-		self.bullets[#self.bullets+1]  = self:randomProjectile()
-		self.bullets[#self.bullets+1]  = self:randomProjectile()
+		if cooldown<=0 then
+			self.bullets[#self.bullets+1]  = self:randomProjectile()
+			self.bullets[#self.bullets+1]  = self:randomProjectile()
+			self.bullets[#self.bullets+1]  = self:randomProjectile()
+			self.bullets[#self.bullets+1]  = self:randomProjectile()
+			cooldown=.3
+		else
+			cooldown=cooldown-dt
+		end
 	end
 end
  
