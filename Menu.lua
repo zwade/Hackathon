@@ -82,7 +82,7 @@ end
 function Menu:draw()
 	--overlay
 	love.graphics.setColor(Menu.OVERLAYCOLOR)
-	love.graphics.rectangle("fill", 0, 0, self.width, self.height)
+	love.graphics.rectangle("fill", 0, 0, 1024, 768)
 	--buttons
 	for i in pairs(self.buttons) do
 		self.buttons[i]:draw()	
