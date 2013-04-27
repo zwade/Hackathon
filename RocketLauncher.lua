@@ -24,7 +24,7 @@ function RocketLauncher:render(sx,sy)
 end
 
 function RocketLauncher:update(dt)
-	while #self.bullets>25 do
+	while #self.bullets>15 do
 		self.bullets = removeitem(self.bullets,1)
 		print(#self.bullets)
 	end
@@ -41,7 +41,7 @@ function RocketLauncher:fire(type)
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000,vy*2000,love.graphics.newImage("RedBullet.png"))
+		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*200,vy*200,love.graphics.newImage("RedBullet.png"))
 		print(self.bullets[#self.bullets+1])
 	end
 end
