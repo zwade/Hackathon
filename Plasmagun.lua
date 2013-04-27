@@ -33,6 +33,8 @@ function Plasmagun:update(dt)
 	for i in pairs(self.bullets) do
 		self.bullets[i]:update(self.entities,dt)
 	end
+	if cooldown>0 then
+		cooldown=cooldown-dt
 end
 
 function Plasmagun:fire(type)
@@ -45,8 +47,7 @@ function Plasmagun:fire(type)
 			vy = vy/mag
 			self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*1000,vy*1000,love.graphics.newImage("Plasma Bolt.png"),self.parent)
 			cooldown=.2		
-		else
-			cooldown=cooldown-dt
+
 		end
 	end
 end
