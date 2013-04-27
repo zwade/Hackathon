@@ -1,19 +1,19 @@
-
-require("main")
 require("middleclass/middleclass")
  
 Projectile = class("Projectile")
 --Projectile:include(Hitbox) --Hitbox is at bottom of file
  
-function Projectile:initialize(x, y, vx, vy, image)
+function Projectile:initialize(x, y, vx, vy, image,par)
   --self.components = template
 	self.image = image
 	self.width = self.image:getWidth()
 	self.height = self.image:getHeight()
 	self.x = x
+	self.parent = par
 	self.y = y
 	self.vx = vx
 	self.vy = vy
+	self.exists = true
 end
  
 function Projectile:move(nx,ny)
@@ -22,28 +22,42 @@ function Projectile:move(nx,ny)
 end
  
 function Projectile:update(loe,dt)
-	self:checkHits(getEntities())
+	tmp = self:checkHits(loe)
 	self:move(self.vx*dt, self.vy*dt)
+	if tmp then
+		self.exists = false
+		return tmp
+	end
 end
  
 function Projectile:checkHits(listOfThingsToHit)
-	for i = 1, #listOfThingsToHit do
-		self:checkHit(listOfThingsToHit[i])
+	if not(self.exists) then
+		return
+	end
+	for i in pairs(listOfThingsToHit) do
+		tmp = self:checkHit(listOfThingsToHit[i])
+		if tmp then 
+			return tmp
+		end
 	end
 end
  
 function Projectile:checkHit(thingHit)
-	if self.hasHit(thingHit)
+	if self:hasHit(thingHit)
 		then
-			self.hitAction(thingHit)
+			return self:hitAction(thingHit)
 		end
+	return false
 end
  
 function Projectile:hasHit(thingWithHitbox)
+	if thingWithHitbox.id == self.parent.id then
+		return false
+	end
 	--[[ Apparently projectiles have no width/height. :(
 	--if has hit thingWithHitbox
-	local selfXY = self.minmaxXY()
-	local otherXY = thingWithHitbox.minmaxXY()
+	local selfXY = self:minmaxXY()
+	local otherXY = thingWithHitbox:minmaxXY()
 	
 	--if max of smaller greater than min of larger, then collision
 	
@@ -54,11 +68,12 @@ function Projectile:hasHit(thingWithHitbox)
 	
 	if XY[2] < XY[3] return true else return false
 	]]
-	local hitXY = thingWithHitbox.minmaxXY()
+	local hitXY = thingWithHitbox:minmaxXY()
 	
 	if self.x > hitXY[1] and self.x < hitXY[2]
-	and self.y > hitXY[3] and self.z < hitXY[4]
+	and self.y > hitXY[3] and self.y < hitXY[4]
 	then
+		print("YAY")
 		return true	
 	else
 		return false
@@ -66,10 +81,13 @@ function Projectile:hasHit(thingWithHitbox)
 end
  
 function Projectile:hitAction(thingHit)
-	--do something	
+	thingHit:takeHit(1)
+	return thingHit
 end
 function Projectile:render()
-	love.graphics.draw(self.image,self.x,self.y,0,1,1,self.width/2,self.height/2) 
+	if self.exists then
+		love.graphics.draw(self.image,self.x,self.y,0,1,1,self.width/2,self.height/2) 
+	end
 end
  
  

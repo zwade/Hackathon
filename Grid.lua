@@ -4,7 +4,6 @@ Grid = class("Grid")
 
 function Grid:initialize(width, height, elements)
 	self.w = width
-	print(width,height)
 	self.h = height
 	
 	self.map = {}
@@ -19,6 +18,7 @@ function Grid:initialize(width, height, elements)
 			end
 		end
 	end
+	print(self.map[0],self.map[32])
 
 end
 

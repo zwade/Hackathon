@@ -26,11 +26,10 @@ end
 function Minigun:update(dt)
 	while #self.bullets>25 do
 		self.bullets = removeitem(self.bullets,1)
-		print(#self.bullets)
 	end
 	Arm.update(self,dt)
 	for i in pairs(self.bullets) do
-		self.bullets[i]:update({},dt)
+		self.bullets[i]:update(self.entities,dt)
 	end
 end
 
@@ -41,7 +40,6 @@ function Minigun:fire(type)
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000,vy*2000,love.graphics.newImage("shot.png"))
-		print(self.bullets[#self.bullets+1])
+		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*1000,vy*1000,love.graphics.newImage("shot.png"),self.parent)
 	end
 end

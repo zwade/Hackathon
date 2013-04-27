@@ -1,0 +1,8 @@
+1=crate32_1.png,
+2=crate32metal1.png,
+3=factorytile_32_1.png,
+4=factorytile32_2.png,
+5=machinery1.png,
+6=entity_tank,
+7=entity_sawblade,
+8=entity_sludge,
