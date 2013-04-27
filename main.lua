@@ -77,7 +77,11 @@ function parseMap(filename,key)
 				enties[count] = Zombie(i*32,a*32,tmp,{},prot)
 				enties[count].id = i*24+a
 				count = count+1
-			el
+			elseif char=="8" then
+				local tmp = {Ghostie()}
+				enties[count] = Ghost(i*32,a*32,tmp,{},prot)
+				enties[count].id = i*24+a
+				count = count+1
 			else 
 				ret[i][a] = key[char]
 			end
