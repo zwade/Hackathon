@@ -250,7 +250,7 @@ function Entity:behave(keys,dt)
 end
 function Entity:coll(dt)
 	self.damagelimt = self.damagelimt - dt
-	tmp = self.grid:check(self.y+self.bottom,self.x,self.width)
+	tmp = self.grid:checkY(self.y+self.bottom,self.x,self.width)
 	if tmp and self.vy>0 then
 		self.y=(tmp-self.bottom)
 		if self.vy>0 then

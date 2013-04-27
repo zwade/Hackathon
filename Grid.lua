@@ -30,7 +30,7 @@ function Grid:set(px,py,img)
 	self.map[px][py] = img
 end
 
-function Grid:check(cy,cx,wid)
+function Grid:checkY(cy,cx,wid)
 	tmpy=math.floor(cy/32)
 	if cy%32~=32 and (cy%32>16 or cy%32==0)  then
 		return false
@@ -50,6 +50,10 @@ function Grid:check(cy,cx,wid)
 	end
 end
 
+function Grid:checkX(cx,cy,wid,hei)
+	l1t = math.floor((cx+wid/2+hei)/32)
+	l1t = math.floor((cx+wid/2-hei)/32)
+	
 function Grid:render()
 	for i in pairs(self.map) do
 		for a in pairs(self.map[i]) do
