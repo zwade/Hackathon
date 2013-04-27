@@ -1,6 +1,6 @@
 require("component")
 
-Ghostie = Component:subclass("PFairy")
+PFairy = Component:subclass("PFairy")
 
 function PFairy:initialize()
   Component.initialize(self,"Fairy.png",0,0)
