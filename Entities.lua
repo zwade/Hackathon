@@ -43,7 +43,6 @@ function Entity:initialize(nx,ny,template,map)
 		self.components[i]:init(self)
 	end
 	self.projectiles = {}	
-	bullet = Projectile(0,0,500,500,love.graphics.newImage("walker.png"))
 end
 
 function Entity:move(nx,ny)
@@ -134,7 +133,6 @@ function Entity:renderC(dt)
 			self.components[i]:render(sx,sy)
 		end
 	end
-	bullet:render()
 end
 
 function Entity:getCollision()
@@ -227,7 +225,6 @@ end
 function Entity:behave(keys,dt)
 	nx = 0
 	ny = 0
-	bullet:update({},dt)	
 	if keys["left"] then
 		self.vx=self.vx-25
 	end
