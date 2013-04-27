@@ -15,7 +15,9 @@ function Component:initialize(imgname,cx,cy,isTorso)
 	self.dir = 0
 	self.z = 0
 end
+function Component:fire()
 
+end
 function Component:init(parent)
 	
 end

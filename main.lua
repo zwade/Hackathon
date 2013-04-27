@@ -7,6 +7,7 @@ require("Zombie")
 require("Walker")
 require("Ghost")
 require("Ghostie")
+require("Minigun")
 
 
 local keyList = {"up","down","left","right"," "}
@@ -26,8 +27,8 @@ temp2 = { c2 = Ghostie(), }
 temp = { c1 = Component( "Chasis.png",0,0,true),
 	 c2 = Component( "Head.png",0,-(65/2+13)),
 	 c3 = Component( "RocketSkate.png",0,(65/2)+20),
-	 a1 = Arm( "Minigun.png",-24,-12),
-	 a2 = Arm( "Minigun.png",24,-12)
+	 a1 = Minigun( "Minigun.png",-24,-12,"l"),
+	 a2 = Minigun( "Minigun.png",24,-12,"r")
  }
 
 function love.conf(t)
@@ -35,7 +36,7 @@ function love.conf(t)
 end
 function love.load()
 	love.graphics.setMode( 1024,768, false, true, 0 )
-	love.graphics.setBackgroundColor(0,255,0)
+	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24)
 	map:set(1,1,love.graphics.newImage("dirt.png"))
 	map:set(2,22,love.graphics.newImage("dirt.png"))
@@ -48,10 +49,10 @@ end
 function love.update(dt)
 	keys = getKeys(keyList)
 	prot:behave(keys,dt)
-	prot:moveV(dt)
+	prot:moveV(dt,true)
 	prot:moveH(dt)
 	zomb:behave(keys,dt)
-	zomb:moveV(dt)
+	zomb:moveV(dt,true)
 	zomb:moveH(dt)
 	ghost:behave(keys,dt)
 	ghost:moveV(dt)
@@ -69,8 +70,8 @@ function love.keypressed(key)
 		print(prot.y)
 	end
 end
-function love.mousepressed()
-	prot:fire()
+function love.mousepressed(x,y,type)
+	prot:fire(type)
 end
 function love.draw()
 	prot:renderC()

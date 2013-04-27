@@ -6,8 +6,8 @@ Projectile = class("Projectile")
 function Projectile:initialize(x, y, vx, vy, image)
   --self.components = template
 	self.image = image
-	--self.width = self.image:getWidth()
-	--self.height = self.image:getHeight()
+	self.width = self.image:getWidth()
+	self.height = self.image:getHeight()
 	self.x = x
 	self.y = y
 	self.vx = vx
@@ -67,7 +67,7 @@ function Projectile:hitAction(thingHit)
 	--do something	
 end
 function Projectile:render()
-	love.graphics.draw(self.image,self.x,self.y) 
+	love.graphics.draw(self.image,self.x,self.y,0,1,1,self.width/2,self.height/2) 
 end
  
  

@@ -1,5 +1,9 @@
 Arm = Pivot:subclass("Arm")
 
+function Arm:initialize(img, cx, cy, arm)
+	Pivot.initialize(self,img,cx,cy)
+	self.weapon = arm
+end
 function Arm:update(dt)
 	mx = love.mouse:getX()
         my = love.mouse:getY()

@@ -4,6 +4,17 @@ require("Projectile")
 Entity = class("Entity")
 
 
+function removeitem(list, index)
+	ret = {}
+	for i=1,(index-1) do
+		ret[i] = list[i]
+	end
+	for i=(index+1),#list do
+		ret[i-1] = list[i]
+	end
+	return ret
+end
+
 function Entity:initialize(nx,ny,template,map)
 	self.components = template
 	self.grid = map
@@ -25,7 +36,7 @@ function Entity:initialize(nx,ny,template,map)
 		self.components[i].parent = self
 		self.components[i]:init(self)
 	end
-	
+	self.projectiles = {}	
 	bullet = Projectile(0,0,500,500,love.graphics.newImage("walker.png"))
 end
 
@@ -136,8 +147,12 @@ function Entity:minmaxXY()
 		end
 	end
 end		
-function Entity:fire()
-	print("fire")
+function Entity:fire(ms)
+	for i in pairs(self.components) do
+		en = self.components[i]
+		print("wat")
+		en:fire(ms)
+	end
 end
 function Entity:render()										
 
@@ -236,11 +251,10 @@ function Entity:moveH(dt, friction)
 		
 end
 function Entity:moveV(dt,gravity)
-	gravity = gravity or true
 	if gravity then
 		self.vy = self.vy+dt*self.G
-		ny = self.vy*dt
 	end
+	ny = self.vy*dt
 	if self.y <= (768-self.bottom) then
 		self:move(0,ny)
 	end
