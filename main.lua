@@ -7,6 +7,8 @@ require("Zombie")
 require("Walker")
 require("Ghost")
 require("Ghostie")
+require("Button")
+require("Menu")
 require("Minigun")
 require("Shotgun")
 --require("Fairy")
@@ -83,8 +85,10 @@ function parseMap(filename,key)
 	return ret,enties
 end
 function love.load()
+	mainmenu = Menu:new(1024/2 - 50, 768/2 - 100)
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	loadlevel("FactoryD2.txt",key_factory)
+	paused = false
 end
 
 function loadlevel(level,key)
@@ -104,6 +108,9 @@ function loadlevel(level,key)
 end
 
 function love.update(dt)
+	if paused then
+		return
+	end
 	keys = getKeys(keyList)
 	for i in pairs(entities) do
 		en = entities[i]
@@ -127,19 +134,34 @@ function love.keypressed(key)
 		prot:takeHit()
 		print(prot.y)
 	end
+	if key=="p" then
+		if paused then paused = false
+		else paused=true
+		end
+	end
 end
 function love.mousepressed(x,y,type)
+	if paused then
+		return
+	end
 	prot:fire(type)
 end
 function love.draw()
-	for i in pairs(entities) do
-		entities[i]:renderC()
-
+	if (paused) then
+		drawOverlay()
+	else
+		for i in pairs(entities) do
+			entities[i]:renderC()
+	
+		end
+		prot:renderC()
+		map:render()
 	end
-	prot:renderC()
-	map:render()
+	love.graphics.setColor(255, 255, 0, 255)
 end 
-
+function drawOverlay()
+	mainmenu:draw()
+end
 function getKeys(keys)
 	ret = {}
 	for i in pairs(keyList) do
