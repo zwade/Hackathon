@@ -6,10 +6,14 @@ function Fairy:initialize(nx,ny,template,map,prot)
 end
 
 function Fairy:behave(keys,dt)
-	if self.y > self.protagonist.y then
+	if self.y+200 > self.protagonist.y then
 		self.vy = self.vy - 5
-	else 
+	else if self.y-200 < self.protagonist.y then
 		self.vy = self.vy + 5
+	if self.x+200 > self.protagonist.x then
+		self.vx = self.vx - 5
+	else if self.x-200 < self.protagonist.x then
+		self.vx = self.vx + 5
 	end
 	while #self.bullets>25 do
 		self.bullets = removeitem(self.bullets,1)
