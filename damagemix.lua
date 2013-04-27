@@ -2,7 +2,9 @@ require("middleclass/middleclass")
 
 meleeDamage = {
 	damage = function(self, other,range,damage)
-		dist = math.sqrt((self.x-other.x)*(self.x-other.x)+(self.y-other.y)*(self.y-other.y))
+		print(self.parent.x,self.y)
+		print(other.x,other.y)
+		dist = math.sqrt((self.parent.x-other.x)*(self.parent.x-other.x)+(self.parent.y-other.y)*(self.parent.y-other.y))
 		print(dist)
 		if dist < range then
 			other:takeHit(damage)
