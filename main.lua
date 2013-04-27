@@ -30,9 +30,12 @@ temp = { c1 = Component( "Chasis.png",0,0,true),
 	 a1 = Minigun( "Minigun.png",-24,-12,"l"),
 	 a2 = Minigun( "Minigun.png",24,-12,"r")
  }
-
+entities = {temp1,temp2}
 function love.conf(t)
 	t.screen.fullscreen = true
+end
+function getEntities()
+	return entities
 end
 function love.load()
 	love.graphics.setMode( 1024,768, false, true, 0 )

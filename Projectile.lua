@@ -1,3 +1,5 @@
+
+require("main")
 require("middleclass/middleclass")
  
 Projectile = class("Projectile")
@@ -20,7 +22,7 @@ function Projectile:move(nx,ny)
 end
  
 function Projectile:update(loe,dt)
-	self:checkHits(loe)
+	self:checkHits(getEntities())
 	self:move(self.vx*dt, self.vy*dt)
 end
  
