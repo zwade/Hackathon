@@ -19,7 +19,7 @@ exampleT = {imageList={
 
 temp1 = { c1 = Walker(),
  }
-temp = { c1 = Component( "Chasis.png",0,0),
+temp = { c1 = Component( "Chasis.png",0,0,true),
 	 c2 = Component( "Head.png",0,-(65/2+13)),
 	 c3 = Component( "RocketSkate.png",0,(65/2)+20),
 	 a1 = Arm( "Minigun.png",-24,-12),

@@ -120,7 +120,12 @@ function Entity:getCollision()
 	end
 	return {cx,bw}
 end
-
+function Entity:minmaxXY() 
+	for i in pairs(self.components) do
+		en = self.components[i]
+		if en.torso then
+			ret = {}
+			
 function Entity:render()										
 
 	scalex = 1

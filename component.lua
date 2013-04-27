@@ -2,7 +2,8 @@ require("middleclass/middleclass")
 
 Component = class("Component")
 
-function Component:initialize(imgname,cx,cy)
+function Component:initialize(imgname,cx,cy,isTorso)
+	self.torso = isTorso or false
 	self.image = love.graphics.newImage(imgname)
 	self.imagename = imgname
 	self.x = cx
