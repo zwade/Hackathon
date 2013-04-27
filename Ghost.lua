@@ -11,9 +11,9 @@ function Ghost:behave(keys,dt)
 		self.vx = self.vx + 25
 	end
 	if self.y > self.protagonist.y then
-		self.vy = self.vy - 25
+		self.vy = self.vy - 15
 	else 
-		self.vy = self.vy + 25
+		self.vy = self.vy + 15
 	end
 	self:coll(dt)
 end
