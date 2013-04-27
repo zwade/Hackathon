@@ -8,6 +8,7 @@ require("Walker")
 require("Ghost")
 require("Ghostie")
 require("Minigun")
+require("Shotgun")
 
 
 local keyList = {"up","down","left","right"," "}
@@ -30,7 +31,7 @@ temp = { Component( "Chasis.png",0,0,true),
 	 Component( "Head.png",0,-(65/2+13)),
 	 Component( "RocketSkate.png",0,(65/2)+20),
 	 Minigun( "Minigun.png",-24,-12,"l",entities),
-	 Minigun( "Minigun.png",24,-12,"r",entities)
+	 Shotgun( "Shotgun.png",24,-12,"r",entities)
  }
 function love.conf(t)
 	t.screen.fullscreen = true
@@ -54,16 +55,17 @@ function parseMap(filename)
 	file = file:gsub("","")
 	file = file:sub(2)
 	ret = {}
-	print(file)
-	print("--------")
+	--print(file)
+	--print("--------")
 	for i=0, 32 do
 		ret[i+1] = {}
 		for a=0, 24 do
 			char = file:sub(i*24+a,i*24+a)
+			print(char)
 			if char == "0" then
-				ret[i+1][a+1] = false
+				ret[i][a] = false
 			else 
-				ret[i+1][a+1] = key_factory[char]
+				ret[i][a] = key_factory[char]
 			end
 		end
 	end
@@ -71,7 +73,7 @@ function parseMap(filename)
 end
 function love.load()
 	test,size = love.filesystem.read("FactoryD1.txt")
-	gr = parseMap("FactoryD1.txt")
+	--gr = parseMap("FactoryD1.txt")
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24)

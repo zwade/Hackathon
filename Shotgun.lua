@@ -1,0 +1,58 @@
+Shotgun = Arm:subclass("Shotgun")
+ 
+function removeitem(list, index)
+        ret = {}
+        for i=1,(index-1) do
+                ret[i] = list[i]
+        end
+        for i=(index+1),#list do
+                ret[i-1] = list[i]
+        end
+        return ret
+end
+ 
+function Shotgun:initialize(img,cx,cy,arm)
+  Arm.initialize(self,img,cx,cy,arm)
+	self.bullets = {}
+end
+ 
+function Shotgun:render(sx,sy)
+	Arm.render(self,sx,sy)
+	for i in pairs(self.bullets) do
+		self.bullets[i]:render()
+	end
+end
+ 
+function Shotgun:update(dt)
+	while #self.bullets>25 do
+		self.bullets = removeitem(self.bullets,1)
+		print(#self.bullets)
+	end
+	Arm.update(self,dt)
+	for i in pairs(self.bullets) do
+		self.bullets[i]:update(self.entities,dt)
+	end
+end
+ 
+Shotgun.static.SPREAD_FACTOR = 300
+Shotgun.static.NUM_PELLETS = 8
+ 
+function Shotgun:fire(type)
+	if type==self.weapon then
+		self.bullets[#self.bullets+1]  = self:randomProjectile()
+		print(self.bullets[#self.bullets+Shotgun.NUM_PELLETS])
+	end
+end
+ 
+function Shotgun:randomProjectile()
+    vx = love.mouse:getX() - (self.x+self.parent.x)
+  	vy = love.mouse:getY() - (self.y+self.parent.y)
+		mag = math.sqrt(vx*vx+vy*vy)
+		vx = vx/mag
+		vy = vy/mag
+		return Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000 + self:randomDeviation(Shotgun.SPREAD_FACTOR),vy*2000 + self:randomDeviation(Shotgun.SPREAD_FACTOR),love.graphics.newImage("shot.png"),self.parent)
+end
+ 
+function Shotgun:randomDeviation(spreadfactor)
+    return math.random(-spreadfactor, spreadfactor)
+end
