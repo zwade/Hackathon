@@ -17,6 +17,7 @@ function Walker:render(sx,sy)
 end
 function Walker:init(parent)
 	parent.speed = 100
+	parent.invuln = 0
 end
 function Walker:update(dt)
 	self:damage(self.parent.protagonist,40,1)

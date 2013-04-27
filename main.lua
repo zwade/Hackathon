@@ -72,11 +72,12 @@ function parseMap(filename,key)
 			char = file:sub(a*32+i,a*32+i)
 			if char == "0" then
 				ret[i][a] = false
-			elseif char=="6" or char=="7" or char=="8" then
+			elseif char=="6" or char=="7" then
 				local tmp = {Walker()}
 				enties[count] = Zombie(i*32,a*32,tmp,{},prot)
 				enties[count].id = i*24+a
 				count = count+1
+			el
 			else 
 				ret[i][a] = key[char]
 			end

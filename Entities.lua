@@ -27,6 +27,7 @@ function Entity:initialize(nx,ny,template,map)
 	self.G = 500
 	self.F = 500
 	self.bottom = tmp[1]
+	self.invuln = 1
 	self.health = 10
 	self.width = tmp[2]
 	self.speed = 300
@@ -39,6 +40,7 @@ function Entity:initialize(nx,ny,template,map)
 	self.ux = 0
 	self.vy = 0
 	self.ux = 0
+	self.damagelimt = 0
 	self.entities = {}
 	for i in pairs(self.components) do
 		self.components[i].parent = self
@@ -74,7 +76,11 @@ end
 
 function Entity:takeHit(dmg)
 	dmg = dmg or 1
+	if self.damagelimt > 0 then
+		return
+	end
 	self.health = self.health - dmg
+	self.damagelimt = self.invuln
 	if self.health <= 0 then
 		self:die()
 	end
@@ -242,6 +248,7 @@ function Entity:behave(keys,dt)
 	self:coll(dt)
 end
 function Entity:coll(dt)
+	self.damagelimt = self.damagelimt - dt
 	tmp = self.grid:check(self.y+self.bottom,self.x,self.width)
 	if tmp and self.vy>0 then
 		self.y=(tmp-self.bottom)
