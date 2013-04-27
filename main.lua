@@ -11,6 +11,8 @@ require("Button")
 require("Menu")
 require("Minigun")
 require("Shotgun")
+require("Necromancer")
+require("Necro")
 --require("Fairy")
 --require("PFairy")
 
@@ -103,6 +105,7 @@ function loadlevel(l,level,key)
 	prot.id = 0
 	prot.level  = l
 	gr,entities = parseMap(level,key)
+	entities[#entities+1] = Necromancer:new(512,300,{Necro()},{},prot)
 	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24,gr)
 	prot.grid = map

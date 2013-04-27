@@ -1,7 +1,7 @@
 Necromancer = Entity:subclass("Necromancer")
 function Necromancer:initialize(nx,ny,template,map,prot)
   Entity.initialize(self,nx,ny,template,map)
-  
+	
 	
 	self.teleportTime = math.random(1., 20)
 	self.summonTime = math.random(1., 4)
@@ -9,9 +9,6 @@ function Necromancer:initialize(nx,ny,template,map,prot)
 	self.protagonist = prot
 	--self.noGrav = true
 end
-
-local entities={}
-local fullcount=0
 
 function Necromancer:behave(keys,dt)
 	
@@ -35,35 +32,18 @@ function Necromancer:behave(keys,dt)
 end
 
 function Necromancer:teleport()
-  if(self.x==100) then
-	  self.x = 924
-  else
-    self.x = 100
-  end
+	self.x = math.random( 100, 924 )
 end
 
 function Necromancer:spawn(thingToSpawn)
-	if(thingToSpawn=="Ghost")
-    local tmp = {Ghostie()}
-  	entites[count] = Ghost(self.x,self.y,tmp,{},prot)
-		entites[count].id = 24*fullcount
-		count = count+1
-    fullcount=fullcount+1
-  else
-    local tmp = {Walker()}
-  	entites[count] = Zombie(self.x,self.y,tmp,{},prot)
-		entites[count].id = 24*fullcount
-		count = count+1
-    fullcount=fullcount+1
-
-  end
+	--SPAWN!?!?!?!?!
 end
 
 function Necromancer:summon()
 	if math.random() < .375 then
-		spawn("Ghost")
+		span("ghost")
 	else 
-		spawn("Zombie")
+		span("zombie")
 	end
 end
 
