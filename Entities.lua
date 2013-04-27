@@ -14,7 +14,7 @@ function removeitem(list, index)
 	end
 	return ret
 end
-
+	
 function Entity:initialize(nx,ny,template,map)
 	self.components = template
 	if #template==1 then
@@ -32,7 +32,9 @@ function Entity:initialize(nx,ny,template,map)
 	self.speed = 300
 	self.x = nx
 	self.alive = true
+	self.jh = -300
 	self.y = ny
+	self.canJump = false
 	self.vx = 0
 	self.ux = 0
 	self.vy = 0
@@ -45,6 +47,12 @@ function Entity:initialize(nx,ny,template,map)
 	self.projectiles = {}	
 end
 
+function Entity:jump()
+	if self.canJump then
+		self:alterVelocity(self.jh)
+		self.canJump = false
+	end
+end
 function Entity:move(nx,ny)
 	self.x=self.x+nx
 	self.y=self.y+ny
@@ -239,6 +247,7 @@ function Entity:coll(dt)
 		self.y=(tmp-self.bottom)
 		if self.vy>0 then
 			self.vy = 0
+			self.canJump = true
 		end
 	end
 	for i in pairs(self.components) do
@@ -300,6 +309,7 @@ function Entity:moveV(dt,gravity)
 	end
 	if self.y > (768-self.bottom) then
 		self.vy = 0
+		self.canJump = true
 		self:set(self.x,(768-self.bottom))
 	end
 	if (self.y < 0 ) then

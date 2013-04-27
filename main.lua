@@ -118,7 +118,7 @@ function love.update(dt)
 end
 function love.keypressed(key)
 	if key==" " then
-		prot:alterVelocity(-500)
+		prot:jump()
 	end
 	if key=="escape" then
 		love.event.push("quit")
