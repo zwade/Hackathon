@@ -36,16 +36,21 @@ function Grid:check(cy,cx,wid)
 	if cy%32>8 then
 		return false
 	end
-	tmpx1 = math.floor((cx+wid/2)/32)
-	tmpx1 = tmpx1-1
+	tmpx1 = math.floor((cx-wid/2)/32)
 	tmpx2 = math.floor((cx+wid/2)/32)
-	tmpx2 = tmpx2-1
+	if tmpx1<0 then
+		tmpx1 = 0
+	end
+	if tmpx2>self.w then
+		tmpx2 = self.w
+	end
 	for i = tmpx1, tmpx2 do
 		print(tmpy,i)
 		if self:get(i,tmpy) then
 			print("YUP")
 		end
 	end
+	print("---")
 end
 
 function Grid:render()

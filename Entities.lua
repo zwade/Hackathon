@@ -116,46 +116,7 @@ function Entity:getCollision()
 	end
 	return {cx,bw}
 end
-function Entity:renderT(mx,my)
-	scalex = 1
-	scaley = 1
-	if self.x>mx then
-		scalex = scalex*-1
-	end
-	if mx>self.x then
-		renderRight(mx,my,scalex,scaley)
-		renderBody(mx,my,scalex,scaley)
-		renderLeft(mx,my,scalex,scaley)
-	else
-		renderLeft(mx,my,scalex,scaley)
-		renderBody(mx,my,scalex,scaley)
-		renderRight(mx,my,scalex,scaley)
-	end
-end
-		
-function Entity:renderLeft(mx,my,scalex,scaley)
-	for i in self.templateLeft do
-		dir = math.atan((i.y+self.y-my)/(i.x+self.x-mx))+math.pi/2
-		if mx>self.x then
-			d1=d1+math.pi
-		end
-		love.graphics.draw(i.image,i.x+self.x,i.y+self.y,dir,scalex,scaley,i.ox,i,oy)
-	end
-end
 
-function Entity:renderRight(mx,my,scalex,scaley)
-	for i in self.templateRight do
-		dir = math.atan((i.y+self.y-my)/(i.x+self.x-mx))+math.pi/2
-		if mx>self.x then
-			d1=d1+math.pi
-		end
-		love.graphics.draw(i.image,i.x+self.x,i.y+self.y,dir,scalex,scaley,i.ox,i,oy)
-	end
-end
-
-function Entity:renderBody(mx,my,scalex,scaley)
-	love.graphics.draw(self.image,self.x,self.y,0,scalex,scaley,self.image:getWidth()/2,self.image:getHeight()/2)
-end
 function Entity:render()										
 
 	scalex = 1
