@@ -35,6 +35,7 @@ function Plasmagun:update(dt)
 	end
 	if cooldown>0 then
 		cooldown=cooldown-dt
+	end
 end
 
 function Plasmagun:fire(type)
