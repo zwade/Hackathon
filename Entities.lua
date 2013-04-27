@@ -5,9 +5,9 @@ Entity = class("Entity")
 Entity.static.G = 500
 Entity.static.F = 500
 
-function Entity:initialize(nx,ny,template)
+function Entity:initialize(nx,ny,template,map)
 	self.components = template
-	
+	self.grid = map
 	for i in pairs(self.components) do
 		self.components[i].parent = self
 	end
@@ -16,6 +16,7 @@ function Entity:initialize(nx,ny,template)
 	tmp = self:getCollision()
 
 	self.bottom = tmp[1]
+	print(self.bottom)
 	self.width = tmp[2]
 	self.horizlimit = 300
 	self.x = nx
@@ -108,8 +109,8 @@ function Entity:getCollision()
 	bw = 0
 	for i in pairs(self.components) do
 		en = self.components[i]
-		if en.y+en.h>cx then
-			cx = en.y+en.h
+		if en.y+en.h/2>cx then
+			cx = en.y+en.h/2
 			bw = en.w
 		end
 	end
@@ -205,6 +206,7 @@ end
 function Entity:behave(keys,dt)
 	nx = 0
 	ny = 0
+	self.grid:check(self.y+self.bottom,self.x,self.width)
 	if keys["left"] then
 		self.vx=self.vx-25
 	end
@@ -243,11 +245,11 @@ function Entity:moveV(dt,gravity)
 		self.vy = self.vy+dt*Entity.G
 		ny = self.vy*dt
 	end
-	if self.y <= (1024-self.bottom) then
+	if self.y <= (768-self.bottom) then
 		self:move(0,ny)
 	end
-	if self.y > (1024-self.bottom) then
+	if self.y > (768-self.bottom) then
 		self.vy = 0
-		self:set(self.x,(1024-self.bottom))
+		self:set(self.x,(768-self.bottom))
 	end
 end
