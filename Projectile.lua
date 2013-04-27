@@ -24,6 +24,7 @@ function Projectile:move(nx,ny)
 end
  
 function Projectile:update(loe,dt)
+	print(">>>>>",loe[0])
 	self.age = self.age + 1
 	tmp = self:checkHits(loe)
 	self:move(self.vx*dt, self.vy*dt)
@@ -40,9 +41,7 @@ end
 function Projectile:checkHits(listOfThingsToHit)
 	for i in pairs(listOfThingsToHit) do
 		for a in pairs(listOfThingsToHit[i]) do
-			print(a,listOfThingsToHit[i][a])
 		end	
-		print(i, listOfThingsToHit)
 	end
 	if not(self.exists) then
 		return
@@ -56,7 +55,7 @@ function Projectile:checkHits(listOfThingsToHit)
 end
  
 function Projectile:checkHit(thingHit)
-	if self:hasHit(thingHit)
+	if  self:hasHit(thingHit)
 		then
 			return self:hitAction(thingHit)
 		end
@@ -96,7 +95,7 @@ end
  
 function Projectile:hitAction(thingHit)
 	thingHit:takeHit(1)
-	return thingHit
+	return true
 end
 function Projectile:render()
 	if self.exists then
