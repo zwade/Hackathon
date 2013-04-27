@@ -5,6 +5,7 @@ require("Arm")
 require("Grid")
 require("Zombie")
 require("Walker")
+require("Ghostie")
 
 local keyList = {"up","down","left","right"," "}
 
