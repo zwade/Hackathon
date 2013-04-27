@@ -33,6 +33,7 @@ function Shotgun:update(dt)
 	Arm.update(self,dt)
 	for i in pairs(self.bullets) do
 		self.bullets[i]:update(self.entities,dt)
+	end
 	if cooldown>0 then
 		cooldown=cooldown-dt
 	end
