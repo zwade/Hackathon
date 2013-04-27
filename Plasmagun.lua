@@ -1,4 +1,6 @@
-Minigun = Arm:subclass("Minigun")
+Plasmagun = Arm:subclass("Plasmagun")
+
+local cooldown=0
 
 function removeitem(list, index)
         ret = {}
@@ -11,19 +13,19 @@ function removeitem(list, index)
         return ret
 end
 
-function Minigun:initialize(img,cx,cy,arm)
-  Arm.initialize(self,img,cx,cy,arm)
+function Plasmagun:initialize(img,cx,cy,arm)
+	Arm.initialize(self,img,cx,cy,arm)
 	self.bullets = {}
 end
 
-function Minigun:render(sx,sy)
+function Plasmagun:render(sx,sy)
 	Arm.render(self,sx,sy)
 	for i in pairs(self.bullets) do
 		self.bullets[i]:render()
 	end
 end
 
-function Minigun:update(dt)
+function Plasmagun:update(dt)
 	while #self.bullets>25 do
 		self.bullets = removeitem(self.bullets,1)
 	end
@@ -33,13 +35,18 @@ function Minigun:update(dt)
 	end
 end
 
-function Minigun:fire(type)
+function Plasmagun:fire(type)
 	if type==self.weapon then
-		vx = love.mouse:getX() - (self.x+self.parent.x)
-		vy = love.mouse:getY() - (self.y+self.parent.y)
-		mag = math.sqrt(vx*vx+vy*vy)
-		vx = vx/mag
-		vy = vy/mag
-		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*1000,vy*1000,love.graphics.newImage("shot.png"),self.parent)
+		if cooldown<=0 then
+			vx = love.mouse:getX() - (self.x+self.parent.x)
+			vy = love.mouse:getY() - (self.y+self.parent.y)
+			mag = math.sqrt(vx*vx+vy*vy)
+			vx = vx/mag
+			vy = vy/mag
+			self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*1000,vy*1000,love.graphics.newImage("Plasma Bolt.png"),self.parent)
+			cooldown=.2		
+		else
+			cooldown=cooldown-dt
+		end
 	end
 end
