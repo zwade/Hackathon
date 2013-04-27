@@ -52,7 +52,7 @@ key_factory["5"]=love.graphics.newImage("machinery1.png")
 key_factory["6"]=love.graphics.newImage("machinery1.png")
 key_factory["7"]=love.graphics.newImage("machinery1.png")
 key_factory["8"]=love.graphics.newImage("machinery1.png")
-function parseMap(filename)
+function parseMap(filename,key)
 	file = love.filesystem.read(filename)
 	file = file:gsub("\n","")
 	file = file:gsub("\r","")
@@ -76,18 +76,21 @@ function parseMap(filename)
 				enties[count].id = i*24+a
 				count = count+1
 			else 
-				ret[i][a] = key_factory[char]
+				ret[i][a] = key[char]
 			end
 		end
 	end
 	return ret,enties
 end
 function love.load()
-	test,size = love.filesystem.read("FactoryD1.txt")
+	love.graphics.setMode( 1024,768, false, true, 0 )
+	loadlevel("FactoryD2.txt",key_factory)
+end
+
+function loadlevel(level,key)
 	prot = Entity:new(0,0,temp,map)
 	prot.id = 0
-	gr,entities = parseMap("FactoryD1.txt")
-	love.graphics.setMode( 1024,768, false, true, 0 )
+	gr,entities = parseMap(level,key)
 	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24,gr)
 	prot.grid = map
@@ -102,7 +105,7 @@ end
 
 function love.update(dt)
 	keys = getKeys(keyList)
-	for i=1,11 do
+	for i in pairs(entities) do
 		en = entities[i]
 		en:behave(keys,dt)
 		en:moveV(dt,true)
