@@ -1,5 +1,8 @@
 Zombie = Entity:subclass("Zombie")
 function Zombie:initialize(nx,ny,template,map,prot)
+	for i,v in ipairs(template) do
+		print(i,v)
+	end
 	Entity.initialize(self,nx,ny,template,map)
 	self.protagonist = prot
 	self.speed = math.random(13,35)

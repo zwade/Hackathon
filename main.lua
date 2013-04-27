@@ -105,7 +105,6 @@ function loadlevel(l,level,key)
 	prot.id = 0
 	prot.level  = l
 	gr,entities = parseMap(level,key)
-	entities[#entities+1] = Necromancer:new(512,300,{Necro()},{},prot)
 	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24,gr)
 	prot.grid = map
@@ -123,6 +122,7 @@ function love.update(dt)
   if not paused then
 	for i in pairs(entities) do
 		en = entities[i]
+		print(en)
 		en:behave(keys,dt)
 		en:moveV(dt,true)
 		en:moveH(dt)
@@ -164,11 +164,12 @@ function love.mousepressed(x,y,type)
 	end
 end
 function love.draw()
+	love.graphics.draw(love.graphics.newImage("FacBac.png"),0,0)
 
-  for i in pairs(entities) do
-  	entities[i]:renderC()
+	for i in pairs(entities) do
+  		entities[i]:renderC()
 	end
-  prot:renderC()
+  	prot:renderC()
 	map:render()
 	if paused then drawOverlay() end
 	love.graphics.setColor(255, 255, 255, 255)

@@ -17,6 +17,7 @@ end
 	
 function Entity:initialize(nx,ny,template,map,w)
 	self.components = template
+	print(template)
 	if #template==1 then
 		self.components[1].torso = true
 	end
