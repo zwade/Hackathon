@@ -36,6 +36,7 @@ end
  
 Shotgun.static.SPREAD_FACTOR = 300
 Shotgun.static.NUM_PELLETS = 8
+Shotgun.static.SPEED_MODIFIER = 2000
  
 function Shotgun:fire(type)
 	if type==self.weapon then
@@ -50,7 +51,7 @@ function Shotgun:randomProjectile()
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		return Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000 + self:randomDeviation(Shotgun.SPREAD_FACTOR),vy*2000 + self:randomDeviation(Shotgun.SPREAD_FACTOR),love.graphics.newImage("shot.png"),self.parent)
+		return Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*Shotgun.SPEED_MODIFIER + self:randomDeviation(Shotgun.SPREAD_FACTOR),vy*Shotgun.SPEED_MODIFIER + self:randomDeviation(Shotgun.SPREAD_FACTOR),love.graphics.newImage("shot.png"),self.parent)
 end
  
 function Shotgun:randomDeviation(spreadfactor)
