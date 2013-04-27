@@ -15,7 +15,7 @@ require("Shotgun")
 --require("PFairy")
 
 local paused = false
-local keyList = {"up","down","left","right"," "}
+local keyList = {"a","d","up","down","left","right"," "}
 
 exampleT = {imageList={
   	{image="base1.png",
@@ -34,6 +34,8 @@ temp2 = {  Ghostie(), }
 
 --temp3 = {PFairy()}
 
+
+
 temp = { Component( "Chasis.png",0,0,true),
 	 Component( "Head.png",0,-(65/2+13)),
 	 Component( "RocketSkate.png",0,(65/2)+20),
@@ -44,6 +46,7 @@ function love.conf(t)
 	t.screen.fullscreen = true
 end
 
+factory = {"FactoryD1.txt","FactoryD2.txt","FactoryD3.txt","FactoryD4.txt","FactoryD5.txt"}
 
 key_factory = {}
 key_factory["1"]=love.graphics.newImage("crate32_1.png")
@@ -92,12 +95,13 @@ end
 function love.load()
 	mainmenu = Menu:new(1024/2 - 50, 768/2 - 100)
 	love.graphics.setMode( 1024,768, false, true, 0 )
-	loadlevel("FactoryD2.txt",key_factory)
+	loadlevel(1,"FactoryD1.txt",key_factory)
 end
 
-function loadlevel(level,key)
-	prot = Entity:new(0,0,temp,map)
+function loadlevel(l,level,key)
+	prot = Entity:new(32,544,temp,map,win)
 	prot.id = 0
+	prot.level  = l
 	gr,entities = parseMap(level,key)
 	love.graphics.setBackgroundColor(0,0,0)
 	map = Grid(32,24,gr)
@@ -126,6 +130,13 @@ function love.update(dt)
   else
   mainmenu:update(dt)
   end
+end
+
+function win(self,l)
+	if l>=#factory then
+		l=0
+	end
+	loadlevel(l+1,factory[l+1],key_factory)
 end
 function love.keypressed(key)
 	if key==" " then

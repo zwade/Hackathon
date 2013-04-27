@@ -15,7 +15,7 @@ function removeitem(list, index)
 	return ret
 end
 	
-function Entity:initialize(nx,ny,template,map)
+function Entity:initialize(nx,ny,template,map,w)
 	self.components = template
 	if #template==1 then
 		self.components[1].torso = true
@@ -24,6 +24,7 @@ function Entity:initialize(nx,ny,template,map)
 
 	--self:setImage()
 	tmp = self:getCollision()
+	self.win = w
 	self.G = 500
 	self.F = 500
 	self.bottom = tmp[1]
@@ -239,10 +240,10 @@ end
 function Entity:behave(keys,dt)
 	nx = 0
 	ny = 0
-	if keys["left"] then
+	if keys["left"] or keys["a"] then
 		self.vx=self.vx-25
 	end
-	if keys["right"] then
+	if keys["right"] or keys["d"] then
 		self.vx=self.vx+25
 	end
 	self:coll(dt)
@@ -291,6 +292,8 @@ function Entity:moveH(dt, friction)
 	if self.x>999 then
 		if self:areDead() then
 			print("All Dead!")
+			print(self.level)
+			self:win(self.level)
 		end
 		self.x=999
 		self.vx=0
