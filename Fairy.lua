@@ -1,4 +1,18 @@
-Fairy= Arm:subclass("Fairy")
+Fairy = Entity:subclass("Fairy")
+function Fairy:initialize(nx,ny,template,map,prot)
+	Entity.initialize(self,nx,ny,template,map)
+	self.protagonist = prot
+	self.bullets={}
+end
+
+function Fairy:behave(keys,dt)
+	if self.y > self.protagonist.y then
+		self.vy = self.vy - 5
+	else 
+		self.vy = self.vy + 5
+	end
+	self:coll(dt)
+end
 
 function removeitem(list, index)
         ret = {}
@@ -9,11 +23,6 @@ function removeitem(list, index)
                 ret[i-1] = list[i]
         end
         return ret
-end
-
-function Fairy:initialize(img,cx,cy,arm)
-  Arm.initialize(self,img,cx,cy,arm)
-	self.bullets = {}
 end
 
 function Fairy:render(sx,sy)
