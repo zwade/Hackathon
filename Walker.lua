@@ -20,7 +20,7 @@ function Walker:init(parent)
 	parent.invuln = 0
 end
 function Walker:update(dt)
-	self:damage(self.parent.protagonist,40,1)
+	self:damage(self.parent.protagonist,40,3)
 	Component.update(self,dt)
 
 end
