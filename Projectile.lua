@@ -14,6 +14,7 @@ function Projectile:initialize(x, y, vx, vy, image,par)
 	self.vx = vx
 	self.vy = vy
 	self.exists = true
+	self.age = 0
 end
  
 function Projectile:move(nx,ny)
@@ -22,6 +23,7 @@ function Projectile:move(nx,ny)
 end
  
 function Projectile:update(loe,dt)
+	self.age = self.age + 1
 	tmp = self:checkHits(loe)
 	self:move(self.vx*dt, self.vy*dt)
 	if tmp then
@@ -29,7 +31,11 @@ function Projectile:update(loe,dt)
 		return tmp
 	end
 end
- 
+
+function Projectile:getAge()
+	return self.age	
+end
+
 function Projectile:checkHits(listOfThingsToHit)
 	if not(self.exists) then
 		return

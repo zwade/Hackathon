@@ -1,18 +1,4 @@
-Fairy = Entity:subclass("Fairy")
-function Fairy:initialize(nx,ny,template,map,prot)
-	Entity.initialize(self,nx,ny,template,map)
-	self.protagonist = prot
-	self.bullets={}
-end
-
-function Fairy:behave(keys,dt)
-	if self.y > self.protagonist.y then
-		self.vy = self.vy - 5
-	else 
-		self.vy = self.vy + 5
-	end
-	self:coll(dt)
-end
+RocketLauncher = Arm:subclass("RocketLauncher")
 
 function removeitem(list, index)
         ret = {}
@@ -25,14 +11,19 @@ function removeitem(list, index)
         return ret
 end
 
-function Fairy:render(sx,sy)
+function RocketLauncher:initialize(img,cx,cy,arm)
+  Arm.initialize(self,img,cx,cy,arm)
+	self.bullets = {}
+end
+
+function RocketLauncher:render(sx,sy)
 	Arm.render(self,sx,sy)
 	for i in pairs(self.bullets) do
 		self.bullets[i]:render()
 	end
 end
 
-function Fairy:update(dt)
+function RocketLauncher:update(dt)
 	while #self.bullets>25 do
 		self.bullets = removeitem(self.bullets,1)
 		print(#self.bullets)
@@ -43,14 +34,14 @@ function Fairy:update(dt)
 	end
 end
 
-function Minigun:fire(type)
+function RocketLauncher:fire(type)
 	if type==self.weapon then
 		vx = love.mouse:getX() - (self.x+self.parent.x)
 		vy = love.mouse:getY() - (self.y+self.parent.y)
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000,vy*2000,love.graphics.newImage("Fairy.png"))
+		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000,vy*2000,love.graphics.newImage("RedBullet.png"))
 		print(self.bullets[#self.bullets+1])
 	end
 end
