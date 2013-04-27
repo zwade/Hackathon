@@ -5,7 +5,9 @@ require("Arm")
 require("Grid")
 require("Zombie")
 require("Walker")
+require("Ghost")
 require("Ghostie")
+
 
 local keyList = {"up","down","left","right"," "}
 
@@ -20,6 +22,7 @@ exampleT = {imageList={
 
 temp1 = { c1 = Walker(),
  }
+temp2 = { c2 = Ghostie(), }
 temp = { c1 = Component( "Chasis.png",0,0,true),
 	 c2 = Component( "Head.png",0,-(65/2+13)),
 	 c3 = Component( "RocketSkate.png",0,(65/2)+20),
@@ -39,6 +42,7 @@ function love.load()
 	map:set(31,23,love.graphics.newImage("dirt.png"))
 	prot = Entity:new(0,0,temp,map)
 	zomb = Zombie:new(100,100,temp1,map,prot)
+	ghost = Ghost:new(100,200,temp2,map,prot)
 end
 
 function love.update(dt)
@@ -49,6 +53,9 @@ function love.update(dt)
 	zomb:behave(keys,dt)
 	zomb:moveV(dt)
 	zomb:moveH(dt)
+	ghost:behave(keys,dt)
+	ghost:moveV(dt)
+	ghost:moveH(dt)
 end
 function love.keypressed(key)
 	if key==" " then
@@ -68,6 +75,7 @@ end
 function love.draw()
 	prot:renderC()
 	zomb:renderC()
+	ghost:renderC()
 	map:render()
 end 
 

@@ -17,3 +17,7 @@ function Ghost:behave(keys,dt)
 	end
 	self:coll(dt)
 end
+
+function Ghost:moveV(dt,gravity)
+	Entity.moveV(self,dt,false)
+end
