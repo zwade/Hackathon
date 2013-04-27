@@ -11,6 +11,14 @@ function Fairy:behave(keys,dt)
 	else 
 		self.vy = self.vy + 5
 	end
+	while #self.bullets>25 do
+		self.bullets = removeitem(self.bullets,1)
+		print(#self.bullets)
+	end
+	Entity.behave(self,dt)
+	for i in pairs(self.bullets) do
+		self.bullets[i]:update({},dt)
+	end
 	self:coll(dt)
 end
 
@@ -25,32 +33,21 @@ function removeitem(list, index)
         return ret
 end
 
-function Fairy:render(sx,sy)
-	Arm.render(self,sx,sy)
+function Fairy:renderC(dt)
+	Entity.renderC(dt)
 	for i in pairs(self.bullets) do
 		self.bullets[i]:render()
 	end
 end
 
-function Fairy:update(dt)
-	while #self.bullets>25 do
-		self.bullets = removeitem(self.bullets,1)
-		print(#self.bullets)
-	end
-	Arm.update(self,dt)
-	for i in pairs(self.bullets) do
-		self.bullets[i]:update({},dt)
-	end
-end
-
-function Minigun:fire(type)
+function Fairy:fire(type)
 	if type==self.weapon then
-		vx = love.mouse:getX() - (self.x+self.parent.x)
-		vy = love.mouse:getY() - (self.y+self.parent.y)
+		vx = self.prot.x-self.x
+		vy = self.prot.x-self.y
 		mag = math.sqrt(vx*vx+vy*vy)
 		vx = vx/mag
 		vy = vy/mag
-		self.bullets[#self.bullets+1] = Projectile(self.x+self.parent.x,self.y+self.parent.y,vx*2000,vy*2000,love.graphics.newImage("Fairy.png"))
+		self.bullets[#self.bullets+1] = Projectile(self.x,self.y,vx*2000,vy*2000,love.graphics.newImage("shot.png"))
 		print(self.bullets[#self.bullets+1])
 	end
 end
