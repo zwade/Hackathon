@@ -30,7 +30,7 @@ function Entity:initialize(nx,ny,template,map,w)
 	self.F = 500
 	self.bottom = tmp[1]
 	self.invuln = 1
-	self.health = 10
+	self.health = 25
 	self.width = tmp[2]
 	self.speed = 300
 	self.x = nx
@@ -74,6 +74,10 @@ function Entity:setImageT()
 end
 function Entity:die()
 	self.alive = false
+	if #self.components>2 then
+		gameover = true
+		print("game over")
+	end
 end
 
 function Entity:takeHit(dmg)

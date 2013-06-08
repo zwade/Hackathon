@@ -48,7 +48,7 @@ function love.conf(t)
 	t.screen.fullscreen = true
 end
 
-factory = {"FactoryD1.txt","FactoryD2.txt","FactoryD3.txt","FactoryD4.txt","FactoryD5.txt"}
+factory = {"FactoryD1.txt","FactoryD2.txt","FactoryD3.txt","FactoryD4.txt","FactoryD5.txt","GraveyardD1.txt"}
 
 key_factory = {}
 key_factory["1"]=love.graphics.newImage("crate32_1.png")
@@ -95,6 +95,8 @@ function parseMap(filename,key)
 	return ret,enties
 end
 function love.load()
+	
+love.audio.play(love.audio.newSource("Factory.wav"))
 	mainmenu = Menu:new(1024/2 - 50, 768/2 - 100)
 	love.graphics.setMode( 1024,768, false, true, 0 )
 	loadlevel(1,"FactoryD1.txt",key_factory)
@@ -103,6 +105,7 @@ end
 function loadlevel(l,level,key)
 	prot = Entity:new(32,544,temp,map,win)
 	prot.id = 0
+	prot.health = 20
 	prot.level  = l
 	gr,entities = parseMap(level,key)
 	love.graphics.setBackgroundColor(0,0,0)
@@ -164,6 +167,10 @@ function love.mousepressed(x,y,type)
 	end
 end
 function love.draw()
+	if not(prot.alive) then
+		love.graphics.draw(love.graphics.newImage("go.jpg"),0,0)
+		return 
+	end
 	love.graphics.draw(love.graphics.newImage("FacBac.png"),0,0)
 
 	for i in pairs(entities) do

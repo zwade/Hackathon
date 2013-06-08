@@ -97,7 +97,7 @@ function Projectile:hitAction(thingHit)
 end
 function Projectile:render()
 	if self.exists then
-		love.graphics.draw(self.image,self.x,self.y,0,1,1,self.width/2,self.height/2) 
+		love.graphics.draw(self.image,self.x,self.y,0,2,2,self.width/2,self.height/2) 
 	end
 end
  
